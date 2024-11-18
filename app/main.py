@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from typing import Optional
 from pydantic import BaseModel
 import mysql.connector
-from myswl.connector import Error
+from mysql.connector import Error
 import json
 import os
 
@@ -34,7 +34,8 @@ def zone_apex():
 
 @app.get('/genres')
 async def get_genres():
-    return {"message": "Genre List"}
+    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS,
+database=DB)
     query = "SELECT * FROM genres ORDER BY . genreid;"
     try:    
         cur.execute(query)
@@ -43,8 +44,6 @@ async def get_genres():
         json_data=[]
         for result in results:
             json_data.append(dict(zip(headers,result)))
-        cur.close()
-        db.close()
         return(json_data)
     except Error as e:
         print("MySQL Error: ", stre(e))
@@ -52,9 +51,11 @@ async def get_genres():
 
 @app.get('/songs')
 async def get_genres():
-    query = "SELECT songs.title, songs.album, songs.artist, songs.year, 
+    db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS,
+database=DB)
+    query = """SELECT songs.title, songs.album, songs.artist, songs.year, 
 songs.file, songs.image, genres.genre FROM songs JOIN genres WHERE 
-songs.genre = genres.genreid;"
+songs.genre = genres.genreid;"""
     try:    
         cur.execute(query)
         headers=[x[0] for x in cur.description]
