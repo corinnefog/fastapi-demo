@@ -32,11 +32,11 @@ def zone_apex():
     return {"Hello": "Corinne"}
 
 
-@app.get('/genres')
+@app.get("/genres")
 async def get_genres():
     db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS,
 database=DB)
-    query = "SELECT * FROM genres ORDER BY . genreid;"
+    query = """SELECT * FROM genres ORDER BY . genreid;"""
     try:    
         cur.execute(query)
         headers=[x[0] for x in cur.description]
@@ -49,7 +49,7 @@ database=DB)
         print("MySQL Error: ", stre(e))
         return {"Error": "MySQL Error: " + str(e)}   
 
-@app.get('/songs')
+@app.get("/songs")
 async def get_genres():
     db = mysql.connector.connect(user=DBUSER, host=DBHOST, password=DBPASS,
 database=DB)
