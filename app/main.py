@@ -9,14 +9,14 @@ import json
 import os
 
 DBHOST = "ds2022.cqee4iwdcaph.us-east-1.rds.amazonaws.com"
-DBUSER = "admin"
+DBUSER = "ds2022"
 DBPASS = os.getenv('DBPASS')
 DB = "qfr4cu"
 
 db = mysql.connector.connect(user=DBUSER, host=DBHOST, 
     password=DBPASS, 
     database=DB)
-    cur=db.cursor()
+cur=db.cursor()
     
 
 app = FastAPI()
